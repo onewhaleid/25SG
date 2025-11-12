@@ -122,6 +122,7 @@ class Tag(object):
 
         # Fill scores to end of event
         self.route.loc[hard_end, "CmPts"] = self.score
+        self.route = self.route.resample(dt).mean()
         self.route = self.route.ffill()
 
         # Rename columns
