@@ -111,6 +111,7 @@ class Tag(object):
         self.route = xy.join(pts)
 
         soft_end = pd.Timedelta(hours=self.hours)
+        hard_end = soft_end + pd.Timedelta(minutes=30)
 
         # Calculate point deductions
         deductions = pts.copy() * 0
@@ -118,7 +119,10 @@ class Tag(object):
         values[values < 0] = 0
         deductions[:] = values
         self.route["CmPts"] -= values
-        self.route.loc[self.route.index[-1], "CmPts"] = self.score
+
+        # Fill scores to end of event
+        self.route.loc[hard_end, "CmPts"] = self.score
+        self.route = self.route.ffill()
 
         # Rename columns
         self.route = self.route.rename(columns={"CmPts": "Score"})
