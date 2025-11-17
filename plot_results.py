@@ -121,4 +121,4 @@ fig.update_xaxes(visible=False)
 fig.update_yaxes(visible=False)
 fig.show()
 
-fig.write_html("fig.html", auto_play=False)
+fig.write_html("index.html", auto_play=False)
